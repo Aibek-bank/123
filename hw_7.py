@@ -40,13 +40,14 @@ connect = sqlite3.connect('library.db')
 cursor = connect.cursor()
 
 cursor.execute(""" 
-        CREATE TABLE IF NOT EXISTS books(
+    CREATE TABLE IF NOT EXISTS books(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT UNIQUE NOT NULL,
-        author TEXT UNIQUE NOT NULL,
+        author TEXT NOT NULL,
         year INTEGER
     )
 """)
+
 def books():
     title = input("Название книги: ")
     author = input("Автор книги: ")
@@ -54,29 +55,30 @@ def books():
     cursor.execute("""
         INSERT INTO books (title, author, year)
         VALUES (?, ?, ?)
-        """, (title, author, year))
+    """, (title, author, year))
     connect.commit()
 
-def add_book(self, books):
-    self.cursor.execute(" INSERT INTO books (title, author, year) VALUES (?, ?, ?)", (books.title, books.author, books.year))
-    self.connection.commit()
+def add_book(title, author, year):
+    cursor.execute("INSERT INTO books (title, author, year) VALUES (?, ?, ?)", (title, author, year))
+    connect.commit()
 
-def find_book_by_title(self, title):
-    self.cursor.execute("SELECT * FROM users WHERE title = ?", (title,))
-    return self.cursor.fetchone()
+def find_book_by_title(title):
+    cursor.execute("SELECT * FROM books WHERE title = ?", (title,))
+    return cursor.fetchone()
 
-def update_book_year(self, year):
-    self.cursor.execute("UPDATE FROM books WHERE year = ?", (year,))
-    self.connection.commit()
-    print(f'Год издания year {year} был обновлен')
+def update_book_year(title, new_year):
+    cursor.execute("UPDATE books SET year = ? WHERE title = ?", (new_year, title))
+    connect.commit()
+    print(f'Год издания книги "{title}" был обновлен на {new_year}')
 
-def delete_book_by_title(self, title):
-    self.cursor.execute("DELETE FROM books WHERE title = ?", (title,))
-    self.connection.commit()
-    print(f'Книга с title {title} был удален')
+def delete_book_by_title(title):
+    cursor.execute("DELETE FROM books WHERE title = ?", (title,))
+    connect.commit()
+    print(f'Книга с названием "{title}" была удалена')
 
-books()
-add_book()
+
+books()  
+add_book("Биринчи мугалим", "Ч.Айтматов", 1962)
 # find_book_by_title()
 # update_book_year()
 # delete_book_by_title()
