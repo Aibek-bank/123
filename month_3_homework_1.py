@@ -27,7 +27,7 @@ import asyncio
 import random
 import token
 
-bot = Bot(token='7648596372:AAEuwFGoy_N3icxZ3JhfeAClEht5WGmkKZw')
+bot = Bot(token=token)
 dp = Dispatcher()
 
 choices = ("Камень", "Ножницы", "Бумага")
